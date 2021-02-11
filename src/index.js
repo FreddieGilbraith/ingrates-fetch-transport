@@ -9,7 +9,7 @@ function buildRequest(url, { body, method, ...msg }) {
 		if (typeof body === "object") {
 			return [`${url}?${qs.stringify(body)}`, { method, ...msg }];
 		} else {
-			return [`${url}#${body}`, { method, ...msg }];
+			return [`${url}`, { method, ...msg }];
 		}
 	} else {
 		if (typeof body === "string") {
@@ -31,23 +31,33 @@ export default function fetchTransport(dispatch) {
 					dispatch(src, { type: "FETCH_REJECT", error });
 				} else {
 					response
-						.json()
-						.catch(() => response.text())
+						.text()
+						.then((x) => {
+							try {
+								return JSON.parse(x);
+							} catch (_) {
+								return x;
+							}
+						})
 						.then((body) => {
-							dispatch(src, {
-								type: "FETCH_RESPOND",
+							dispatch({
+								snk: src,
 								src: snk,
 
-								body,
+								msg: {
+									type: "FETCH_RESPOND",
 
-								ok: response.ok,
-								status: response.status,
-								statusText: response.statusText,
-								url: response.url,
+									body,
 
-								headers: Object.fromEntries(
-									response.headers.entries(),
-								),
+									ok: response.ok,
+									status: response.status,
+									statusText: response.statusText,
+									url: response.url,
+
+									headers: Object.fromEntries(
+										response.headers.entries(),
+									),
+								},
 							});
 						});
 				}

@@ -22,7 +22,7 @@
 	"scripts": {
 		"build": "microbundle",
 		"format": "prettier --write src/**/*",
-		"lint": "eslint . && prettier --check **/*.{css,js,md,json}",
+		"lint": "eslint . && prettier --check **/*.{js,json}",
 		"prepublishOnly": "npm run build",
 		"prepushOnly": "npm run format && && npm run test && npm run build",
 		"test": "NODE_ENV=test jest --coverage true src test",
@@ -37,7 +37,7 @@
 	},
 	"lint-staged": {
 		"**/*.js": "eslint --fix",
-		"**/*.{css,js,md,json}": "prettier --write"
+		"**/*.{js,json}": "prettier --write"
 	},
 	"author": "",
 	"license": "ISC",

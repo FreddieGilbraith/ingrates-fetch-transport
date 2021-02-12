@@ -1,6 +1,6 @@
 {
 	"name": "@little-bonsai/ingrates-fetch-transport",
-	"version": "0.1.0",
+	"version": "0.0.0",
 	"sideEffects": false,
 	"description": "An ingrates transport that allows you to call REST endpoints as if they were actors",
 	"source": "src/index.js",
